@@ -1,0 +1,71 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    command: uv run uvicorn main:app --host 0.0.0.0 --port 4000 --reload
+    volumes:
+      - ./server:/app  # Mount server dir to /app in container
+    environment:
+      - BROWSER_USE_API_KEY=${BROWSER_USE_API_KEY:-}
+      - WATCHFILES_FORCE_POLLING=true
+    env_file:
+      - ./server/.env
+    develop:
+      watch:
+        # Sync Python source files
+        - action: sync
+          path: ./server
+          target: /app
+          ignore:
+            - .env
+            - .venv
+            - __pycache__
+            - .git
+            - .gitignore
+            - .pytest_cache
+            - "*.pyc"
+            - "*.pyo"
+            - pyproject.toml
+            - uv.lock
+        
+        # Rebuild when dependencies change
+        - action: rebuild
+          path: ./server/pyproject.toml
+        
+        - action: rebuild
+          path: ./server/uv.lock
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app  # Mount client dir to /app in container
+      - /app/node_modules  # Prevent node_modules from being overwritten
+      - /app/.next  # Prevent .next from being overwritten
+    environment:
+      - NODE_ENV=development
+    develop:
+      watch:
+        # Sync source files
+        - action: sync
+          path: ./client
+          target: /app
+          ignore:
+            - node_modules
+            - .next
+            - .git
+            - .gitignore
+            - package-lock.json
+        
+        # Rebuild when dependencies change
+        - action: rebuild
+          path: ./client/package.json
+        
+        - action: rebuild
+          path: ./client/package-lock.json
