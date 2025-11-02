@@ -1,5 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+import time
+load_dotenv()
 
 app = FastAPI()
 
@@ -19,6 +23,16 @@ def read_root():
 @app.get("/health")
 def health_check():
     return {"status": "healthy ppde"}
+
+@app.get("/agent/execute")
+async def execute_agent():
+    print('agent executed')
+    # simulate agent execution
+    time.sleep(10)
+    # print('env: ', os.environ.get("BROWSER_USE_API_KEY"))
+    # print('env: ', os.getenv("WATCHFILES_FORCE_POLLING"))
+
+    return {"message": "Agent executed"}
 
 def main():
     print("Hello from server!")

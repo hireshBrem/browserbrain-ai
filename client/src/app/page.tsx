@@ -7,10 +7,16 @@ interface ApiResponse {
   status?: string;
 }
 
+interface AgentResponse {
+  message?: string;
+}
+
 export default function Home() {
   const [message, setMessage] = useState<string>("");
   const [health, setHealth] = useState<string>("");
+  const [agentResult, setAgentResult] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [agentLoading, setAgentLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
@@ -29,6 +35,7 @@ export default function Home() {
         const healthData: ApiResponse = await healthResponse.json();
         setHealth(healthData.status || "");
       } catch (err) {
+        console.log('err: ', err);
         setError("Failed to fetch data from API. Make sure the server is running on port 4000.");
         console.error("Error fetching data:", err);
       } finally {
@@ -38,6 +45,22 @@ export default function Home() {
 
     fetchData();
   }, []);
+
+  const executeAgent = async () => {
+    try {
+      setAgentLoading(true);
+      setError("");
+      
+      const response = await fetch("http://localhost:4000/agent/execute");
+      const data: AgentResponse = await response.json();
+      setAgentResult(data.message || "No result returned");
+    } catch (err) {
+      setError("Failed to execute agent. Make sure the server is running on port 4000.");
+      console.error("Error executing agent:", err);
+    } finally {
+      setAgentLoading(false);
+    }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -77,6 +100,27 @@ export default function Home() {
                 <p className="text-zinc-700 dark:text-zinc-300">
                   {health}
                 </p>
+              </div>
+
+              <div className="rounded-lg bg-blue-100 dark:bg-blue-900/20 p-6">
+                <h2 className="text-xl font-semibold mb-4 text-black dark:text-zinc-50">
+                  Agent Execution
+                </h2>
+                <button
+                  onClick={executeAgent}
+                  disabled={agentLoading}
+                  className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg font-medium transition-colors"
+                >
+                  {agentLoading ? "Executing..." : "Execute Agent"}
+                </button>
+                {agentResult && (
+                  <div className="mt-4 p-4 bg-white dark:bg-zinc-800 rounded-lg">
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Result:</p>
+                    <p className="text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap">
+                      {agentResult}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           )}

@@ -4,3 +4,9 @@ Browser Use + Redis
 
 Client: Nextjs app (if time)
 Server: Python uv Server
+
+Features:
+- implement RAG indexed memory
+- implement long term memory
+- implement langcache from redis to access previously similar query 
+and trajectories that were successful

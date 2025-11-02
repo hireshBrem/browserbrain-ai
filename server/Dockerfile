@@ -9,13 +9,15 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 COPY pyproject.toml uv.lock ./
 
 # Install dependencies
-RUN uv sync --frozen
+RUN uv venv && uv sync --frozen
 
 # Copy application code
 COPY . .
 
+ARG BROWSER_USE_API_KEY
+
 # Set environment variable for Browser Use API Key (can be overridden at runtime)
-ENV BROWSER_USE_API_KEY=""
+ENV BROWSER_USE_API_KEY=$BROWSER_USE_API_KEY
 
 # Expose port 4000
 EXPOSE 4000
