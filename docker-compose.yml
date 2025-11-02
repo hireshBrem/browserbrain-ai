@@ -3,15 +3,12 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-      args:
-        BROWSER_USE_API_KEY: ${BROWSER_USE_API_KEY:-}
     ports:
       - "4000:4000"
     command: uv run uvicorn main:app --host 0.0.0.0 --port 4000 --reload
     volumes:
       - ./server:/app  # Mount server dir to /app in container
     environment:
-      - BROWSER_USE_API_KEY=${BROWSER_USE_API_KEY:-}
       - WATCHFILES_FORCE_POLLING=true
     env_file:
       - ./server/.env

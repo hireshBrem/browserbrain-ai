@@ -2,8 +2,9 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Install uv
+# Install uv tooling
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uvx /usr/local/bin/uvx
 
 # Copy dependency files
 COPY pyproject.toml uv.lock ./
@@ -11,13 +12,11 @@ COPY pyproject.toml uv.lock ./
 # Install dependencies
 RUN uv venv && uv sync --frozen
 
+# Pre-install Playwright browser to satisfy browser-use requirements
+RUN uvx playwright install --with-deps chromium
+
 # Copy application code
 COPY . .
-
-ARG BROWSER_USE_API_KEY
-
-# Set environment variable for Browser Use API Key (can be overridden at runtime)
-ENV BROWSER_USE_API_KEY=$BROWSER_USE_API_KEY
 
 # Expose port 4000
 EXPOSE 4000
