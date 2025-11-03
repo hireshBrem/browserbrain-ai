@@ -1,22 +1,19 @@
-# Browser Brain AI
+# BrowserBrain AI
 
 > **2x memory for browser agents**
 
-Browserbrain AI implements a long term memory system + semantic context caching layer for browser agents.
+Browserbrain AI implements a semantic context caching layer for browser agents.
 
 ## 🎯 Why?
 
 Browser agents have poor context. They struggle with:
 - Limited memory retention across tasks
-- Expensive agent hallucinations impose risk for production use
+- Expensive + long agent hallucinations impose risk for production use
 
 ## 🚀 Solution
 
 This project combines **Browser Use** (browser automation library) with **Redis** to provide:
-- **Long Term Memory**: Persistent storage of agent experiences and learnings
 - **LangCache from Redis**: Fast retrieval of previously successful query trajectories and similar contexts
-- Persistent context storage across sessions
-- Enhanced state management for browser automation
 
 ## 🏗️ Architecture
 
@@ -39,59 +36,6 @@ The **Intermediary Layer** acts as the intelligent orchestrator. It decides what
 #### 3. Browser Agent Layer
 
 The **Browser Agent Layer** executes tasks autonomously. Browser use package we use can be customised; add built-in tools and custom tools.  
-
-### How This Architecture Addresses Hackathon Evaluation Criteria
-
-#### ✅ Technical Execution — Depth of Engineering
-
-**Redis Core Datatypes:**
-- **Memory Store**: Uses Redis Hash/Strings for storing structured agent notes and experiences
-- **Semantic Cache**: Leverages Redis Sorted Sets and custom indices for semantic similarity search
-- **Future Integration**: Designed for Redis Streams (A2A communication) and Lane Cache (contextual memory)
-
-**Advanced Features:**
-- Semantic search over historical interactions (RAG)
-- Intelligent context retrieval and synthesis
-- CRUD-based state management for agent orchestration
-
-#### ✅ Creativity & Impact — Novelty & Real-World Utility
-
-**Innovation:**
-- First-of-its-kind approach combining Redis memory stores with semantic caching for browser agents
-- Solves the critical problem of context loss in autonomous browser automation
-- Enables agents to learn from past experiences and adapt to recurring patterns
-
-**Real-World Impact:**
-- 2x improvement in context retention for browser agents
-- Enables multi-session learning and adaptation
-- Reduces computational costs through intelligent caching
-- Makes autonomous browser agents truly viable for production use
-
-#### ✅ Builder Clarity — Architecture & Context Design
-
-**Clear Layer Separation:**
-- Three distinct layers with well-defined responsibilities
-- Bidirectional data flow clearly illustrated
-- Context retrieval patterns explicitly shown
-
-**Design Principles:**
-- **Separation of Concerns**: Context storage, orchestration, and execution are cleanly separated
-- **Scalability**: Redis-based architecture enables horizontal scaling
-- **Extensibility**: Designed to accommodate future Redis features (Streams, Lane Cache)
-
-#### ✅ Polish & Presentation — Working Demo & Documentation
-
-**Complete System:**
-- Full-stack implementation (Python backend + Next.js frontend)
-- Docker Compose setup for easy deployment
-- Comprehensive API design for all memory operations
-- Visual architecture diagram for clear understanding
-
-**Documentation:**
-- Detailed architecture explanation
-- Clear component descriptions
-- API endpoint specifications
-- Development setup instructions
 
 ### Technical Components
 
@@ -148,31 +92,6 @@ View logs in realtime:
 docker compose logs -f
 ```
 
-### Accessing Services
-
-Once started, the services will be available at:
-- **Server API**: `http://localhost:4000`
-- **Client UI**: `http://localhost:3000`
-
-### Health Check
-
-```bash
-curl http://localhost:4000/health
-```
-
-## 📝 API Endpoints
-
-### Current Endpoints
-- `GET /` - Root endpoint (returns welcome message)
-- `GET /health` - Health check endpoint
-
-### Planned Endpoints
-- `POST /agent/execute` - Execute browser agent task
-- `POST /memory/store` - Store agent experience in long-term memory
-- `GET /memory/search` - Semantic search over agent history (RAG)
-- `GET /cache/query` - Retrieve cached query trajectories
-- `POST /cache/store` - Store successful query trajectory
-- `GET /memory/history` - Retrieve agent interaction history
 
 ## 🤝 Contributing
 
