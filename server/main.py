@@ -65,7 +65,6 @@ def _format_agent_step(action: Any, index: int) -> Dict[str, Any]:
         "success": getattr(action, "success", None),
     }
 
-
 @app.get("/test/utils")
 async def test_utils():
     print('new one!!')

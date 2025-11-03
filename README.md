@@ -93,6 +93,35 @@ docker compose logs -f
 ```
 
 
+## 📊 Speed Benchmark: Cache vs Agent Execution
+
+Test how much faster cached responses are compared to creating new browser agent tasks.
+
+### Running the Benchmark (do it yourself!!!)
+
+```bash
+cd server
+uv run test_speed_benchmark.py
+```
+
+### Example Results
+
+```
+============================================================
+RESULTS
+============================================================
+
+Agent Execution Time:  14.13 seconds
+Avg Cache Retrieval:   149.24ms
+
+Speedup:               95x faster with cache
+Time Saved Per Query:  13.98 seconds
+
+============================================================
+```
+
+This demonstrates the **95x speedup** achieved through semantic caching with LangCache - transforming seconds of agent execution into milliseconds of cache retrieval.
+
 ## 🤝 Contributing
 
 This is a hackathon project. Contributions welcome!

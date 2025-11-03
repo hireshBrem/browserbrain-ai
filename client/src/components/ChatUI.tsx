@@ -161,7 +161,7 @@ const formatMessageContent = (content: string): React.ReactNode => {
 // Parse Python-like AgentHistoryList format
 const parseAgentHistory = (content: string): AgentHistory | null => {
   try {
-    const allResultsMatch = content.match(/all_results=\[(.*?)\], all_model_outputs/s);
+    const allResultsMatch = content.match(/all_results=\[([\s\S]*?)\], all_model_outputs/);
     if (!allResultsMatch) return null;
 
     const resultsStr = allResultsMatch[1];
