@@ -1,14 +1,12 @@
 # BrowserBrain AI
 
-> **2x memory for browser agents**
+> **95x FASTER with cache for browser agent tasks**
 
 Browserbrain AI implements a semantic context caching layer for browser agents.
 
 ## 🎯 Why?
 
-Browser agents have poor context. They struggle with:
-- Limited memory retention across tasks
-- Expensive + long agent hallucinations impose risk for production use
+Browser agents are slow and expensive. They struggle with doing the same task again even though it did in 100 times in a row!?!
 
 ## 🚀 Solution
 
@@ -27,33 +25,15 @@ Our architecture implements a sophisticated three-tier context engineering syste
 
 #### 1. Context Layer
 
-The **Context Layer** provides persistent, intelligent memory storage that transcends simple browser agents.
+The **Context Layer** provides persistent, intelligent memory storage for tasks that transcends simple browser agents.
 
-#### 2. Intermediary Layer
-
-The **Intermediary Layer** acts as the intelligent orchestrator. It decides what should or shouldn't be in long term memory (learned trimming). This layer could be removed and replaced with heuristic trimming (fixed static trimming of context) but recent trends show that LLM-based context engineering is more effective.
-
-#### 3. Browser Agent Layer
+#### 2. Browser Agent Layer
 
 The **Browser Agent Layer** executes tasks autonomously. Browser use package we use can be customised; add built-in tools and custom tools.  
 
-### Technical Components
-
-- **Server** (`/server`): Python backend (using `uv`)
-  - Uses `browser-use` for browser automation
-  - Integrates with Redis for context storage and caching
-  - Implements RAG-indexed memory for semantic retrieval
-  - Provides LangCache functionality for query trajectory caching
-  - Provides API endpoints for browser agent operations
-
-- **Client** (`/client`): Next.js frontend
-  - Web interface for interacting with browser agents
-  - Visualize context and memory management
-  - Real-time interaction with the browser automation API
-
 ## 🛠️ Tech Stack
 
-- **Backend**: Python 3.12+, FastAPI, Browser Use, Redis, uvicorn
+- **Backend**: Python 3.12+, FastAPI, Browser Use, Redis, uvicorn, Langcache
 - **Frontend**: Next.js 16, React 19, TypeScript, Tailwind CSS
 - **Infrastructure**: Docker, Docker Compose
 - **Package Management**: `uv` for Python dependencies
@@ -65,7 +45,29 @@ The **Browser Agent Layer** executes tasks autonomously. Browser use package we 
 - Docker & Docker Compose
 - Set up environment variables
 
+### Installing Dependencies
+
+#### Backend (Python)
+
+Navigate to the server directory and install Python dependencies using `uv`:
+
+```bash
+cd server
+uv sync
+```
+
+#### Frontend (Next.js)
+
+Navigate to the client directory and install Node dependencies:
+
+```bash
+cd client
+npm install
+```
+
 ### Running the Project
+
+
 
 Start all services:
 ```bash
